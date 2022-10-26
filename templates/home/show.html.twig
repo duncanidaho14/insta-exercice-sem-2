@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{game.name}}!{% endblock %}
+
+{% block body %}
+
+<style>
+    .container {
+        width: auto;
+        height: 1000vh;
+    }
+   .image-of-game {
+        display: flex;
+        flex-wrap: wrap;
+
+   }
+   img {
+        order: 2;
+   }
+</style>
+    <div class="container">
+        <div class="row">
+            <h1>{{game.name}}</h1>
+            <h2>{{game.introduction}}</h2>
+            <p>{{game.description}}</p>
+            <h2>{{game.price}} €</h2>
+            <h3>{{game.releaseDate|date('d/m/Y H:i')}}</h3>
+            <div class="image-of-game">
+            {% for item in game.images %}
+                <div><img src="{{item.url}}" alt="{{item.title}}" /></div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

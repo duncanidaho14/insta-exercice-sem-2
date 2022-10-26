@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+
+    <ul>
+    {% for item in games %}
+        <li><a href="{{path('app_show', {'id': item.id})}}" alt="{{item.name}}" >{{item.name}}</a></li>
+    {% endfor %}
+    </ul>
+{% endblock %}
