@@ -25,8 +25,8 @@ class VideoGames
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    // #[ORM\Column(length: 255)]
-    // private ?string $image = null;
+    #[ORM\Column(length: 255)]
+    private ?string $image = null;
 
     #[ORM\Column]
     private ?float $price = null;
@@ -103,17 +103,17 @@ class VideoGames
         return $this;
     }
 
-    // public function getImage(): ?string
-    // {
-    //     return $this->image;
-    // }
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
 
-    // public function setImage(string $image): self
-    // {
-    //     $this->image = $image;
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
 
-    //     return $this;
-    // }
+        return $this;
+    }
 
     public function getPrice(): ?float
     {

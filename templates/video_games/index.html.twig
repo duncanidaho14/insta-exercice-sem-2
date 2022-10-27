@@ -1,0 +1,146 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} 
+{% if jeuxvideo == 0 %} 
+    Il n'y a pas de jeux 
+{% else %}
+    {{jeuxvideo.name}} 
+{% endif %}
+ 
+{% endblock %}
+    
+
+{% block body %}
+
+<div class="container">
+    <div class="row">
+    {% if jeuxvideo == 0 %}
+        <h1>Il n'y a pas de jeux</h1>
+    {% else %}
+            <div class="col-12 img_show">
+            <div class="col-4 ">
+                <img class="article_show_img_principal" src="{{jeuxvideo.image}}" alt="nom du jeux vidéo : {{jeuxvideo.name}}">
+			</div>
+            <div class="col-8">
+                <h1 data-aos="fade-left">Acheter {{ jeuxvideo.name }} ! ✅</h1>
+            
+                <h2>Prix : {{jeuxvideo.price|number_format(2, ',', ' ')}} €</h2>
+                <p>Description : {{jeuxvideo.description|raw}}</p>
+                <h2>Date de création : {{jeuxvideo.createdAt|date("m/d/Y")}} - mise à jour le {{jeuxvideo.updatedAt|date("m/d/Y")}}</h2>
+                <button class="btn btn-success btn-block">
+                    <a href="{{path('add_to_basket', {'id': jeuxvideo.id})}}" class="add_to_basket">Ajouter au panier : {{jeuxvideo.name}}</a>
+                </button>	
+            </div>
+        </div>
+        <hr>
+        <section>
+            <h2>Pseudo : {{jeuxvideo.user.pseudo}}</h2>
+        
+            {% if jeuxvideo.user.avatar != null %}
+                <img class="article_show_img_user" src="{{jeuxvideo.user.image}}" alt="{{jeuxvideo.user.pseudo}}">
+            {% endif %}
+            <hr>
+            <div>
+                {% if app.user.email == jeuxvideo.user.email %}
+                    <div>
+                        <p>Ce jeux vous appartient, vous pouvez le modifier ! ✅</p>
+                        <button class="btn btn-danger"><a href="{{path('edit_article', {'id': jeuxvideo.id})}}">Modifier {{jeuxvideo.name}}</a></button>
+                    </div>
+                {% else %}
+                    <div>
+                        <p>Vous ne pouvez modifier cette article ! 🔐</p>
+                    </div>
+                {% endif %}
+            </div>
+        </section>
+        <hr>
+
+        <button class="btn btn-success"><a href="{{path('add_to_basket', {'id': jeuxvideo.id})}}" class="add_to_basket">Ajouter au panier {{jeuxvideo.name}}</a></button>
+        <hr>
+        
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <section class="dark">
+            <div class="container py-4">
+                <h2 class="h1 text-center" id="pageHeaderTitle" data-aos="zoom-in">Catégories {{jeuxvideo.name}}</h2>
+                {% for categories in jeuxvideo.categories %}
+                    <article class="postcard dark blue">
+                        <a class="postcard__img_link" href="#">
+                            <img class="postcard__img" src="" alt="{{categories.name}}" />
+                        </a>
+                        <div class="postcard__text">
+                            <h1 class="postcard__title blue"><a href="#">{{categories.name}}</a></h1>
+                            <div class="postcard__subtitle small">
+                                <time datetime="2020-05-25 12:00:00">
+                                    <i class="fas fa-calendar-alt mr-2"></i>{{categories.updatedAt|date("d:m:Y H:i")}}
+                                </time>
+                            </div>
+                            <div class="postcard__bar"></div>
+                            <div class="postcard__preview-txt">{{jeuxvideo.name}}</div>
+                            <ul class="postcard__tagbox">
+                                <li class="tag__item"><i class="fas fa-tag mr-2"></i>Podcast</li>
+                                <li class="tag__item"><i class="fas fa-clock mr-2"></i>55 mins.</li>
+                                <li class="tag__item play blue">
+                                    <a href="#"><i class="fas fa-play mr-2"></i>Play Episode</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+        <section>
+        <div>
+            
+            <h2>Commentaires</h2>
+
+            <div>
+                {{ form_start(form) }}
+                {{ form_row(form.title) }}
+                {{ form_row(form.comment) }}
+                {{ form_row(form.user) }}
+                <button type="submit" class="btn btn-success">Poster un commentaire</button>
+                {{ form_end(form) }}
+            </div>
+            
+            
+        </div>
+        </section>
+
+        <section class="light">
+            <div class="container py-2">
+                <div class="h1 text-center text-dark" id="pageHeaderTitle" data-aos="fade-down">Commentaires {{jeuxvideo.name}}</div>
+                {% for comments in jeuxvideo.comments %}
+                    <article class="postcard light blue">
+                        <a class="postcard__img_link" href="#">
+                            <img class="postcard__img" src="" alt="{{comments.game.name}}" />
+                        </a>
+                        <div class="postcard__text t-dark">
+                            <h1 class="postcard__title blue"><a href="#">{{comments.game.name}}</a></h1>
+                            <div class="postcard__subtitle small">
+                                <time datetime="2020-05-25 12:00:00">
+                                    <i class="fas fa-calendar-alt mr-2"></i>{{comments.game.createdAt|date("m/d/Y H:i")}}
+                                </time>
+                            </div>
+                            <div class="postcard__bar"></div>
+                            <div class="postcard__preview-txt">{{comments.comment|raw}}</div>
+                            <ul class="postcard__tagbox">
+                                <li class="tag__item"><i class="fas fa-tag mr-2"></i>Podcast</li>
+                                <li class="tag__item"><i class="fas fa-clock mr-2"></i>55 mins.</li>
+                                <li class="tag__item play blue">
+                                    <a href="#"><i class="fas fa-play mr-2"></i>Play Episode</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+    
+        
+    </div>
+</div>
+{% endblock %}

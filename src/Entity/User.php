@@ -59,6 +59,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->videoGames = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->getEmail();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

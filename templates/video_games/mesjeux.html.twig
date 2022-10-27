@@ -1,0 +1,60 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Mes Articles de Jeux Vidéo !
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <section class="dark">
+	        <div class="container py-4">
+
+		    <h1 class="h1 text-center">Mes jeux vidéos</h1>
+            {% for jeux in jeuxvideo %}
+            
+                <article class="postcard dark blue">
+                    <a class="postcard__img_link" href="#">
+                        {# <img class="postcard__img" src="https://picsum.photos/1000/1000" alt="Image Title" /> #}
+                        <img class="postcard__img" src="{{jeux.image}}" alt="{{jeux.name}}" />
+                    </a>
+                    <div class="postcard__text">
+                        <h2 class="postcard__title blue"><a href="#">Titre du jeux : {{jeux.name}}</a></h2>
+                        <div class="postcard__subtitle small">
+                            <time datetime="{{jeux.updatedAt|date("d:m:Y H:i")}}">
+                                <i class="fas fa-calendar-alt mr-2"></i>{{jeux.updatedAt|date("d:m:Y H:i")}}
+                            </time>
+                        </div>
+                        <div class="postcard__bar"></div>
+                        <div class="postcard__preview-txt">{{jeux.description|raw}}</div>
+                        <ul class="postcard__tagbox">
+                            <li class="tag__item"><i class="fas fa-tag mr-2"></i><a href="{{path('edit_article', {'slug': jeux.slug})}}">Modifier le jeux {{jeux.name}}</a></li>
+                            <li class="tag__item"><i class="fas fa-clock mr-2"></i> {{jeux.price|number_format(2, ',', ' ')}} €</li>
+                            <li class="tag__item play blue">
+                                <a href="{{path('app_delete_videogame', {'id': jeux.id})}}"><i class="fas fa-play mr-2"></i>Supprimer le jeux {{jeux.name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </article>
+
+
+            {% else %}
+                <h3>Vous n'avez jamais vendu de jeux vidéo</h3>
+            {% endfor %}
+                </div>
+            
+        </section>
+        
+    </div>
+</div>
+        {# </ul> #}
+        {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+            retourner au près de nos jeux vidéo
+            <a href="{{path('app_home')}}">Jeux vidéo</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

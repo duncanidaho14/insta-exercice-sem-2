@@ -120,6 +120,7 @@ class AppFixtures extends Fixture
                 $jeuxvideo->setName($faker->name())
                             ->setIntroduction($faker->text())
                             ->setDescription($faker->text())
+                            ->setImage($faker->imageUrl())
                             ->setPrice($faker->numberBetween(0, 80))
                             ->setUser($users[mt_rand(0, count($users) -1)])
                             ->setReleaseDate($faker->dateTime())

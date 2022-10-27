@@ -1,0 +1,25 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Modifier son Jeux video {{jeuxvideo.name}}
+{% endblock %}
+
+
+{% block body %}
+<div class="container">
+    <div class="row">
+            <h1 data-aos="fade-right">Editer l'article du siècle : {{jeuxvideo.name}} !</h1>
+
+                {{ form_start(form) }}
+                {{ form_widget(form)}}
+                {{ form_end(form) }}
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                    retourner au près de l'article
+                    <a href="{{path('article_show', {'id': jeuxvideo.id})}}">{{jeuxvideo.name}}</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

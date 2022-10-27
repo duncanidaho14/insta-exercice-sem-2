@@ -1,0 +1,29 @@
+{% extends "base.html.twig" %}
+
+{% block title %} Créez votre article de Jeux Vidéo ! {% endblock %}
+
+{% form_theme form _self %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <br>
+            <br>
+            <h1 data-aos="fade-right">Créer l'article du siècle !</h1>
+            <br>
+            <div>
+                {{ form_start(form) }}
+                {{ form_widget(form)}}
+                {{ form_end(form) }}
+                
+            </div>
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                    retourner au près de nos jeux vidéo 
+                    <a href="{{path('accueil')}}">Jeux vidéo</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

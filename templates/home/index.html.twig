@@ -3,10 +3,47 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
-
-    <ul>
-    {% for item in games %}
-        <li><a href="{{path('app_show', {'id': item.id})}}" alt="{{item.name}}" >{{item.name}}</a></li>
-    {% endfor %}
-    </ul>
+<style>
+    .container {
+        width: auto;
+        height: 1000vh;
+    }
+   .card-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+   }
+   .card-in {
+        order: 3;
+        
+   }
+   .row .col.m7 {
+        width: 30%;
+        margin-left: auto;
+        left: auto;
+        right: auto;
+    }
+</style>
+    <div class="container">
+        <div class="row">
+            <h1>Jeux vidéo</h1>
+            <div class="row card-wrapper">
+                {% for game in games %}
+                <div class="col s12 m7 card-in">
+                    <div class="card">
+                        <div class="card-image">
+                            <img src="{{game.image}}"/>
+                            <span class="card-title">{{game.name}} - {{game.price}} €</span>
+                        </div>
+                        <div class="card-content">
+                            <p>{{game.description}}</p>
+                        </div>
+                        <div class="card-action">
+                            <a href="{{path('add_to_basket', {'id': game.id})}}">Ajout au panier : {{game.price}} €- {{game.introduction}}</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

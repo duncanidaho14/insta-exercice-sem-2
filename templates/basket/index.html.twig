@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon panier - Jeux d'occaz{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            
+            <br>
+            <br>
+           
+            <h1>Mon panier</h1>
+            {% if basket|length > 0 %}
+                
+            
+            {% set total = null %}
+            <table class="table text-center"> 
+                <thead>
+                    <tr>
+                        <th scope="col">Ref du produit</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Produit</th>
+                        <th scope="col">Quantité</th>
+                        <th scope="col">Prix</th>
+                        <th scope="col">Total</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody class="">
+                    {% for product in basket %}
+                    <tr>
+                        <th scope="row">{{basket|length}}</th>
+                        <td>
+                            <a href="{{path('app_show', {'id': product.jeuxvideo.id})}}">
+                                <img src="" height="55px"></td>
+                            </a>
+                        <td>{{product.jeuxvideo.name}}</td>
+                        <td>
+                            <a href="{{path('decrease_to_basket', {'id': product.jeuxvideo.id})}}">
+                                <i class="fas fa-minus"></i>
+                            </a>
+                            {{product.quantity}}
+                            <a href="{{path('add_to_basket', {'id': product.jeuxvideo.id})}}">
+                                <i class="fas fa-cart-plus"></i>
+                            </a>
+                        </td>
+                        <td>{{(product.jeuxvideo.price)|number_format(2, ',', ' ')}} €</td>
+                        <td>{{(((product.jeuxvideo.price) * product.quantity))|number_format(2, ',', ' ')}} €</td>
+                        <td> <a href="{{path('delete_to_basket', {'id': product.jeuxvideo.id})}}"> <i class="fas fa-trash"></i> </a> </td>
+                    </tr>
+                    <tr class="total">
+                        <th scope="row">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td ></td>
+                            <td>{% set total = total + ((product.jeuxvideo.price) * product.quantity) %}</td>
+                            <td></td>
+                        </th>
+                    </tr>    
+                    {% endfor %}
+                
+                </tbody>
+            </table>
+            <section class="commande-title">
+            Prix Total de la commande de jeux video est de : 
+                {{total|number_format(2, ',', ' ')}} €
+            </section>
+
+            <section class="order_basket_buy">
+               
+                    {# <a class="btn btn-outline-primary" href="{{path('order')}}">Passer la commande ✅</a> #}
+                
+            </section>
+            {% else %}
+                <hr>
+                <p>Votre panier est vide</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

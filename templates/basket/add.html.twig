@@ -1,0 +1,60 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Récapitulatif de la commande
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        {% for flashError in app.flashes('verify_email_error') %}
+            <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+        {% endfor %}
+            <h1 data-aos="fade-right">Recapitulatif de la commande</h1>
+            <div class="col-md-6">
+                <h4>Mon adresse de livraison</h4>
+                {{delivery|raw}}
+                <h4>Mon transporteur</h4>
+                <p>
+                    {{carrier[0].name}}
+                    {{carrier[0].description|raw}}
+                    {{(carrier[0].price)|number_format(2, ',', ' ')}}
+                </p>
+            </div>
+            <hr>
+            {% set total = null %}
+            <div class="row col-md-12">
+                {% for key, product in basket %}
+                    <div class="col-md-6">
+                        <img src="{{product.jeuxvideo.image}}" class="product-jeux-img" alt="{{product.jeuxvideo.name}}" height="95px">
+                        <h3>{{product.jeuxvideo.name}}</h3>
+                    </div>
+                    <div class="col-md-6">
+                        <p>Prix de {{product.jeuxvideo.name}} est de {{(product.jeuxvideo.price)|number_format(2, ',', ' ')}} € à l'unité</p>
+                        <p>Prix total : {{(((product.jeuxvideo.price) * product.quantity))|number_format(2, ',', ' ')}} €</p>
+                        {% set total = total + (product.jeuxvideo.price  * product.quantity) %}
+                    </div>
+                {% endfor %}
+                <hr>
+            </div>
+            <div class="col-md-4 float-right">
+                <p>sous total : {{(total)|number_format(2, ',', ' ')}} €</p>
+                <p>Livraison : {{(carrier[0].price)|number_format(2, ',', ' ')}} €</p>
+                <p>total : {{((total) + (carrier[0].price))|number_format(2, ',', ' ')}} €</p>
+            </div>
+            <div class="col-md-8">
+                <form action="{{path('stripe_create_session', {'reference': reference})}}" method="POST">
+                    <button type="submit" id="checkout-button" class="btn btn-block btn-outline-success">Payer | {{((total) + (carrier[0].price))|number_format(2, ',', ' ')}} €</button>
+                </form>
+                
+            </div>
+            {% for message in app.flashes('danger') %}
+                <div class="alert alert-danger">
+                    {{ message }}
+                    retourner au près de mes commandes
+                    <a href="{{path('order')}}">Mes commande de jeux video</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
